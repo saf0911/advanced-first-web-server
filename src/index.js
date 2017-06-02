@@ -46,8 +46,8 @@ server.get('/users', (request, response) => {
     });
 });
 
-server.get('/users', (request, response) => {
-  User.findById(request.params.is).exec()
+server.get('/users:id', (request, response) => {
+  User.findById(request.params.id).exec()
     .then(Users => {
       return response.json(Users);
     })
@@ -56,17 +56,21 @@ server.get('/users', (request, response) => {
     });
 });
 
-server.post('/users', (request, response, next) => {
-  User.create(request.body).exec()
-  .then(() => {
-    console.log('User was saved');
-  })
-  .catch(() => {
-    console.log('user was not saved');
-  });
-  const users = new User(request.body);
 
-  users.save()
+server.delete('/users:id', (request, response) => {
+  User.findByIdAndRemove(request.params.id).exec()
+  .then(Users => {
+    return response.json(Users);
+  })
+  .catch(err => {
+    console.log(`Error! ${err}`);
+  });
+});
+
+server.post('/users', (request, response, next) => {
+  const user = new User(request.body);
+
+  user.save()
   .then(storedUser => {
     console.log('User was saved');
     return response.json(storedUser);
@@ -75,7 +79,7 @@ server.post('/users', (request, response, next) => {
     return next(err);
   });
 
-  return response.json(users);
+  return response.json(user);
 });
 
 

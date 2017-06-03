@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import router from './routes/userRoutes';
-import User from './models/Users';
+
 
 
 mongoose.connect('mongodb://localhost/Scottsnewdatabase');
@@ -60,19 +60,19 @@ server.use((err, request, response, next) => {
 //   });
 // });
 
-server.post('/users', (request, response, next) => {
-  const user = new User(request.body);
-
-  user.save()
-  .then(storedUser => {
-    return response.json(storedUser);
-  })
-  .catch((err) => {
-    return next(err);
-  });
-
-  return response.json(user);
-});
+// server.post('/users', (request, response, next) => {
+//   const user = new User(request.body);
+//
+//   user.save()
+//   .then(storedUser => {
+//     return response.json(storedUser);
+//   })
+//   .catch((err) => {
+//     return next(err);
+//   });
+//
+//   return response.json(user);
+// });
 
 //eslint-disable-next-line
 server.get('/*', (err, request, response, next) => {

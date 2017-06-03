@@ -1,36 +1,19 @@
 import express from 'express';
-import User from '../models/Users';
+import userController from '../controllers/userController';
+
 
 const router = express.Router();
 
-router.get('/users', (request, response) => {
-  User.find({}).exec()
-  .then(Users => {
-    return response.json(Users);
-  })
-  .catch(err => {
-    return (err);
-  });
-});
+router.get('/users', userController.list);
 
-router.get('/users/:id', (request, response, next) => {
-  User.findById(request.params.id).exec()
-  .then(Users => {
-    return response.json(Users);
-  })
-  .catch(err => {
-    return next(err);
-  });
-});
 
-router.delete('/users/:id', (request, response, next) => {
-  User.findByIdAndRemove(request.params.id).exec()
-  .then(Users => {
-    return response.json(Users);
-  })
-  .catch(err => {
-    return next(err);
-  });
-});
+router.get('/users/:id', userController.show);
 
-module.exports = router;
+
+router.delete('/users/:id', userController.remove);
+
+
+router.post('/users', userController.create);
+
+
+export default router;

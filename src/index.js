@@ -2,6 +2,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import router from './routes/userRoutes';
 import User from './models/Users';
 
 
@@ -19,60 +20,51 @@ const Port = 3000;
 
 server.use(bodyParser.json());
 
+server.use(router);
+
 // eslint-disable-next-line
 server.use((err, request, response, next) => {
   console.log('this is not an error');
   return response.status(500).json({message: err.message});
 });
 
-// server.get('/', (request, response) => {
-//   response.json({
-//     Hello: 'World'
+
+// server.get('/users', (request, response) => {
+//   User.find({}).exec()
+//     .then(Users => {
+//       return response.json(Users);
+//     })
+//     .catch(err => {
+//       console.log(`Error! ${err}`);
+//     });
+// });
+
+// server.get('/users:id', (request, response) => {
+//   User.findById(request.params.id).exec()
+//     .then(Users => {
+//       return response.json(Users);
+//     })
+//     .catch(err => {
+//       console.log(`Error! ${err}`);
+//     });
+// });
+
+
+// server.delete('/users:id', (request, response) => {
+//   User.findByIdAndRemove(request.params.id).exec()
+//   .then(Users => {
+//     return response.json(Users);
+//   })
+//   .catch(err => {
+//     console.log(`Error! ${err}`);
 //   });
 // });
-//
-// server.get('/ham', (request, response, next) => {
-//   const error = new Error('This is canned ham');
-//   return next(error);
-// });
-
-server.get('/users', (request, response) => {
-  User.find({}).exec()
-    .then(Users => {
-      return response.json(Users);
-    })
-    .catch(err => {
-      console.log(`Error! ${err}`);
-    });
-});
-
-server.get('/users:id', (request, response) => {
-  User.findById(request.params.id).exec()
-    .then(Users => {
-      return response.json(Users);
-    })
-    .catch(err => {
-      console.log(`Error! ${err}`);
-    });
-});
-
-
-server.delete('/users:id', (request, response) => {
-  User.findByIdAndRemove(request.params.id).exec()
-  .then(Users => {
-    return response.json(Users);
-  })
-  .catch(err => {
-    console.log(`Error! ${err}`);
-  });
-});
 
 server.post('/users', (request, response, next) => {
   const user = new User(request.body);
 
   user.save()
   .then(storedUser => {
-    console.log('User was saved');
     return response.json(storedUser);
   })
   .catch((err) => {
@@ -82,13 +74,12 @@ server.post('/users', (request, response, next) => {
   return response.json(user);
 });
 
-
-server.get('/*', (request, response, next) => {
-  // response.json({
-  //   Its: 'Broke'
-  // });
+//eslint-disable-next-line
+server.get('/*', (err, request, response, next) => {
   console.log('what what what');
-  next();
+  return response.status(400).json({
+    message: err.message
+  });
 });
 
 

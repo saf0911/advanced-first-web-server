@@ -42,7 +42,6 @@ userController.create = (request, response, next) => {
   .catch((err) => {
     return next(err);
   });
-  return response.json(user);
 };
 
 

@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import router from './routes/userRoutes';
+import authenticationRoute from './routes/AuthentificationRoutes';
 
 
 
@@ -22,57 +23,14 @@ server.use(bodyParser.json());
 
 server.use(router);
 
+server.use(authenticationRoute);
+
 // eslint-disable-next-line
 server.use((err, request, response, next) => {
   console.log('this is not an error');
   return response.status(500).json({message: err.message});
 });
 
-
-// server.get('/users', (request, response) => {
-//   User.find({}).exec()
-//     .then(Users => {
-//       return response.json(Users);
-//     })
-//     .catch(err => {
-//       console.log(`Error! ${err}`);
-//     });
-// });
-
-// server.get('/users:id', (request, response) => {
-//   User.findById(request.params.id).exec()
-//     .then(Users => {
-//       return response.json(Users);
-//     })
-//     .catch(err => {
-//       console.log(`Error! ${err}`);
-//     });
-// });
-
-
-// server.delete('/users:id', (request, response) => {
-//   User.findByIdAndRemove(request.params.id).exec()
-//   .then(Users => {
-//     return response.json(Users);
-//   })
-//   .catch(err => {
-//     console.log(`Error! ${err}`);
-//   });
-// });
-
-// server.post('/users', (request, response, next) => {
-//   const user = new User(request.body);
-//
-//   user.save()
-//   .then(storedUser => {
-//     return response.json(storedUser);
-//   })
-//   .catch((err) => {
-//     return next(err);
-//   });
-//
-//   return response.json(user);
-// });
 
 //eslint-disable-next-line
 server.get('/*', (err, request, response, next) => {

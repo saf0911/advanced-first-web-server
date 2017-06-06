@@ -6,14 +6,14 @@ const router = express.Router();
 
 router.get('/users', userController.list);
 
+router.post('/users', userController.create);
 
 router.get('/users/:id', userController.show);
-
 
 router.delete('/users/:id', userController.remove);
 
 
-router.post('/users', userController.create);
+
 
 
 export default router;

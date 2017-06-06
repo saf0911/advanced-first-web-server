@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/AustinCodingAcademy/advanced-first-web-server#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.10.4"

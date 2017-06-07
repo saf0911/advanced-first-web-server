@@ -14,12 +14,12 @@ userController.list = (request, response, next) => {
 
 userController.show = (request, response, next) => {
   User.findById(request.params.id).exec()
-  .then(Users => {
-    return response.json(Users);
-  })
-  .catch(err => {
-    return next(err);
-  });
+    .then(Users => {
+      return response.json(Users);
+    })
+    .catch(err => {
+      return next(err);
+    });
 };
 
 userController.remove = (request, response, next) => {

@@ -3,9 +3,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import router from './routes/userRoutes';
-import authenticationRoute from './routes/AuthentificationRoutes';
+import authRouter from './routes/AuthenticationRoutes';
+import passport from 'passport';
 
-
+require('dotenv').config();
 
 mongoose.connect('mongodb://localhost/Scottsnewdatabase');
 
@@ -19,22 +20,27 @@ const server = express();
 
 const Port = 3000;
 
+const authStrategy = passport.authenticate('authStrategy', {session: false});
+
 server.use(bodyParser.json());
 
 server.use(router);
 
-server.use(authenticationRoute);
+server.use(authRouter);
+
+// eslint-disable-next-line
+server.get('/api/secret', authStrategy, (request, response, next) => {
+  response.send(`The current user is ${request.user.username}`);
+});
 
 // eslint-disable-next-line
 server.use((err, request, response, next) => {
-  console.log('this is not an error');
   return response.status(500).json({message: err.message});
 });
 
 
 //eslint-disable-next-line
 server.get('/*', (err, request, response, next) => {
-  console.log('what what what');
   return response.status(400).json({
     message: err.message
   });

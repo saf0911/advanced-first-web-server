@@ -10,6 +10,8 @@ require('dotenv').config();
 
 mongoose.connect('mongodb://localhost/Scottsnewdatabase');
 
+console.log('error2');
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -18,7 +20,7 @@ db.once('open', function () {
 
 const server = express();
 
-const Port = 3000;
+const Port = process.env.Port || 3000;
 
 const authStrategy = passport.authenticate('authStrategy', {session: false});
 
@@ -27,6 +29,7 @@ server.use(bodyParser.json());
 server.use(router);
 
 server.use(authRouter);
+console.log('error1');
 
 // eslint-disable-next-line
 server.get('/api/secret', authStrategy, (request, response, next) => {

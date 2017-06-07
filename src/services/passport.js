@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 import passport from 'passport';
 import User from '../models/Users';
 import LocalStrategy from 'passport-local';
-import { JwtStrategy, ExtractJwt} from 'passport-jwt';
+// import { JwtStrategy, ExtractJwt} from 'passport-jwt';
 
-// const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
 
 const signinStrategy = new LocalStrategy((username, password, done) => {
@@ -30,7 +30,7 @@ const signinStrategy = new LocalStrategy((username, password, done) => {
 });
 
 const jwtOptions = {
-  secretOrKey: process.env.SECRET,
+  secretOrKey: 'process.env.SECRET',
   jwtFromRequest: ExtractJwt.fromHeader('Authorization')
 };
 
